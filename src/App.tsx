@@ -1,12 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getData } from './utils/parse';
 import { Credential, Credentials } from './utils/types';
 import './App.css'
 
+
+interface PassCredential {
+  id: string,
+  name: string,
+  username: string | null
+};
+
 function App() {
 
   const [credentials, setCredentials] = useState<Credential[]>([]);
-  const [passwords, setPasswords] = useState<Map<any, any>>();
+  const [passwords, setPasswords] = useState<Map<string, PassCredential[]>>();
   const [isMasked, setMasked] = useState(true);
   const [error, setError] = useState('');
 
@@ -32,6 +39,7 @@ function App() {
         setCredentials(credentials);
         setError('');
       } catch (err) {
+        console.error(err);
         setError('Failed to parse file. Check for correct BitWarden export.');
       }
     };
@@ -58,14 +66,16 @@ function App() {
   }
 
   function createPasswordMap(credentials: Credential[]) {
-    const passwordMap = new Map();
+    const passwordMap = new Map<string, PassCredential[]>();
 
     credentials.forEach(({ id, name, username, password }) => {
       if (password) {
         if (!passwordMap.has(password)) {
           passwordMap.set(password, []);
         }
-        passwordMap.get(password).push({ id, name, username });
+        const passCredentials = passwordMap.get(password) || [];
+        passCredentials.push({ id, name, username });
+        passwordMap.set(password, passCredentials);
       }
     });
 
@@ -124,13 +134,12 @@ function App() {
     }
 
     const nonUniquePasswords = new Set(Array.from(passwords)
-      .filter(([_, value]) => value.length > 1) // Filter by length
+      .filter(([, value]) => value.length > 1) // Filter by length
       .map(([key]) => key));
 
     const newCredentials = [...credentials].sort((a, b) => {
-      const aIsNonUnique = nonUniquePasswords.has(a.password);
-      const bIsNonUnique = nonUniquePasswords.has(b.password);
-
+      const aIsNonUnique = a.password !== null && nonUniquePasswords.has(a.password);
+      const bIsNonUnique = b.password !== null && nonUniquePasswords.has(b.password);
       if (aIsNonUnique && !bIsNonUnique) return -1; // a comes first
       if (!aIsNonUnique && bIsNonUnique) return 1;  // b comes first
       return (a.password || '').localeCompare(b.password || ''); // Sort alphabetically if both are unique or non-unique

@@ -53,7 +53,7 @@ const JSONDataSchema = z.object({
     items: z.array(ItemSchema)
 });
 
-function validate(data: any) {
+function validate(data: unknown) {
     const parsed = JSONDataSchema.safeParse(data);
     if (!parsed.success) {
         console.error("Invalid data format: ", parsed.error);
@@ -63,12 +63,13 @@ function validate(data: any) {
     return parsed.data;
 }
 
-function getData(data: any) {
+function getData(data: unknown) {
 
     let input;
     try {
         input = validate(data);
     } catch (error) {
+        console.error(error);
         throw new Error("Invalid BitWarden data format");
     }
 
