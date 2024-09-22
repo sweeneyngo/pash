@@ -24,4 +24,7 @@ dist-ssr
 *.sw?
 
 *.json
+!tsconfig.app.json
+!tsconfig.json
+!tsconfig.node.json
 !package.json
