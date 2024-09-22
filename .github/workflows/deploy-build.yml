@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           # Upload dist (Vite build)
-          path: "./dist"
+          path: "dist"
 
       - name: Deploy to GitHub Pages
         id: deployment
