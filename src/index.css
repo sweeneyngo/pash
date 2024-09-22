@@ -20,8 +20,9 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #213547;
   text-decoration: inherit;
+  padding-left: 0.25rem;
 }
 
 a:hover {
@@ -43,6 +44,7 @@ h1 {
 
 h6 {
   margin: 0;
+  word-break: break-all;
 }
 
 p {
@@ -50,6 +52,8 @@ p {
   font-size: 0.7em;
   letter-spacing: -0.05em;
   word-spacing: -0.2em;
+  word-break: break-all;
+  /* Breaks at any character */
 }
 
 button {

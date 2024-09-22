@@ -168,8 +168,8 @@ function App() {
           <div key={id} className='block'>
             <div className='flex-v'>
               <h6>{name}</h6>
-              <p>{username}</p>
-              <p>{isMasked ? "■■■■■■" : password}</p>
+              <p className='username'>{username}</p>
+              <p className='password'>{isMasked ? "■■■■■■" : password}</p>
               <p className='gray-text'>Last updated: {formatDate(revisionDate)}</p>
             </div>
           </div>
@@ -191,13 +191,16 @@ function App() {
           <button onClick={() => sortName()}>sort by name</button>
           <button onClick={() => sortUsername()}>sort by username</button>
           <button onClick={() => sortPassword()}>sort by password</button>
-          <button onClick={() => sortLastUpdated()}>sort by last updated</button>
+          <button onClick={() => sortLastUpdated()}>sort by updated</button>
           <button onClick={() => reverse()}>sort in reverse</button>
-          <button onClick={() => sortCommonPasswords()}>check common passwords</button>
+          <button onClick={() => sortCommonPasswords()}>flag non-unique</button>
         </div>
       </div>
       <div className={`notification ${error && 'show'}`}>
         <p>{error}</p>
+      </div>
+      <div className='footer'>
+        Made with love by <a href="https://www.ifuxyl.dev/">ifu</a>
       </div>
     </div>
   )
