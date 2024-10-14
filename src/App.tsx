@@ -177,7 +177,14 @@ function App() {
       </div>
       <div className='diagnostic'>
         <div className='flex-v left'>
+          <p>pash /</p>
+          <p>* minimal pwd checker</p>
+          <p>* welcome,</p>
+          <p>* try uploading a file!</p>
+          <p>* JSON, Bitwarden only</p>
+          <p>-</p>
           <p>{credentials.length} loaded.</p>
+          <p>{passwords && Array.from(passwords.values()).filter(cred => cred.length > 1).length} non-uniques. </p>
           <label className="file-upload-label">
             <input
               type="file"
